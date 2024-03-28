@@ -9,6 +9,11 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.get('/:username', (req, res) => {
+	const {username} = req.params;
+  res.send(`Hola ${username}`);
+});
+
 app.get('/', (_req, res) => {
   res.send(users);
 });
