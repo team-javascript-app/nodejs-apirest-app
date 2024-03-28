@@ -19,8 +19,8 @@ app.get('/', (_req, res) => {
 });
 
 app.post('/', (req, res) => {
-	try {
-		validUser(req.body, users);
+  try {
+    validUser(req.body, users);
 		users.push({
       user: req.body.user.toUpperCase(),
       password: req.body.password
