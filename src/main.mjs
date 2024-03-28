@@ -21,7 +21,7 @@ app.get('/', (_req, res) => {
 app.post('/', (req, res) => {
   try {
     validUser(req.body, users);
-		users.push({
+    users.push({
       user: req.body.user.toUpperCase(),
       password: req.body.password
     });
@@ -29,13 +29,13 @@ app.post('/', (req, res) => {
       status: 'sucessful',
       message: `Usuario '${req.body.user}' registrado`
     });
-	} catch(error) {
-		res.status(404)
+  } catch(error) {
+    res.status(404)
     res.send({
       status: 'faild',
       message: `datos ingresados erroneos: ${error.message}`
     });
-	}
+  }
 });
 
 app.listen(PORT, () => {
