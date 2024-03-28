@@ -26,13 +26,13 @@ const validUser = ({user, password}, users) => {
  * @param {string} user
  */
 const findUser = (users, user) => {
-	if(!user) return null;
+  if(!user) return null;
   for(let i=users.length - 1; i>=0 ;i--) {
     if(users[i].user === user.toUpperCase()) {
       return users[i];
     }
   }
-	return null;
+  return null;
 };
 
 /**
