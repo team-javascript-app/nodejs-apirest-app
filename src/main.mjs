@@ -1,5 +1,12 @@
 import express from 'express';
-import {validUser} from './util/validUser.mjs';
+import {
+  addNewUser,
+	findUser,
+  validUser,
+  responseFaild404,
+  responseSuccessful
+}
+from './util/validUser.mjs';
 
 const app = express();
 
@@ -9,32 +16,43 @@ const PORT = 3000;
 
 app.use(express.json());
 
+const NO_FIND_USER_ERROR = 'No se encontro user: ';
+
 app.get('/:username', (req, res) => {
-	const {username} = req.params;
-  res.send(`Hola ${username}`);
+  const { username } = req.params;
+  const user = findUser(users, username);
+  if(user) {
+    const result = { data: user };
+    res.send(result);
+  } else {
+    res.status(404);
+    const message = `${NO_FIND_USER_ERROR}'${req.params.username}'`;
+    const response = responseFaild404(message);
+    res.send(response);
+  }
 });
 
 app.get('/', (_req, res) => {
-  res.send(users);
+	const result = { data: users };
+  res.send(result);
 });
 
 app.post('/', (req, res) => {
+  const user = {
+    user: req.body.user,
+    password: req.body.password
+  };
   try {
-    validUser(req.body, users);
-    users.push({
-      user: req.body.user.toUpperCase(),
-      password: req.body.password
-    });
-    res.send({
-      status: 'sucessful',
-      message: `Usuario '${req.body.user}' registrado`
-    });
+    validUser(user, users);
+    addNewUser(user, users);
+    const message = `Usuario '${user.user}' registrado`;
+		const result = responseSuccessful(message);
+    res.send(result);
   } catch(error) {
     res.status(404)
-    res.send({
-      status: 'faild',
-      message: `datos ingresados erroneos: ${error.message}`
-    });
+    const message = `datos ingresados erroneos: ${error.message}`;
+    const result = responseFaild404(message);
+    res.send(result);
   }
 });
 
