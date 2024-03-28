@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   addNewUser,
-	findUser,
+  findUser,
   validUser,
   responseFaild404,
   responseSuccessful
@@ -33,7 +33,7 @@ app.get('/:username', (req, res) => {
 });
 
 app.get('/', (_req, res) => {
-	const result = { data: users };
+  const result = { data: users };
   res.send(result);
 });
 
@@ -46,7 +46,7 @@ app.post('/', (req, res) => {
     validUser(user, users);
     addNewUser(user, users);
     const message = `Usuario '${user.user}' registrado`;
-		const result = responseSuccessful(message);
+    const result = responseSuccessful(message);
     res.send(result);
   } catch(error) {
     res.status(404)
