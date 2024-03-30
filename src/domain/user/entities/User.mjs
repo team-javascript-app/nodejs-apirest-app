@@ -9,10 +9,10 @@ export default class User {
     if(typeof id !== 'number') {
       throw Error(`User need a id: ${id}`)
     }
-    if(username.length < 4) {
+    if(username.length < 5) {
       throw Error(`User need a username with more than 4 characters: ${username}`)
     }
-    if(password.length < 6) {
+    if(password.length < 7) {
       throw Error(`User need a password with more than 6 characters: ${password}`)
     }
     this.username = username
