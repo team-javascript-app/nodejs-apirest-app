@@ -29,8 +29,9 @@ export default class ControllerWeb {
   create() {
     this.router.post('/', async (req, res) => {
       try {
-        const {username, password} = req.body
-        const user = new User(0, username, password)
+        const {id, username, password} = req.body
+        console.log(req.body)
+        const user = new User(id, username, password)
         const userResul = await this.controllerUser.create(user)
         this.response.ok(res, {user:userResul})
       } catch (error) {
@@ -55,8 +56,8 @@ export default class ControllerWeb {
     this.router.put('/:username', async (req, res) => {
       try {
         const usernameReq = req.params.username
-        const {username, password} = req.body
-        const user = {username, password}
+        const {id, username, password} = req.body
+        const user = new User(id, username, password)
         const userResult = await this.controllerUser.update(usernameReq, user)
         this.response.ok(res, {user:userResult})
       } catch (error) {
