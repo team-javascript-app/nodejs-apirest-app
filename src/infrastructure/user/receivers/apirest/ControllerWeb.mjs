@@ -30,7 +30,6 @@ export default class ControllerWeb {
     this.router.post('/', async (req, res) => {
       try {
         const {id, username, password} = req.body
-        console.log(req.body)
         const user = new User(id, username, password)
         const userResul = await this.controllerUser.create(user)
         this.response.ok(res, {user:userResul})
