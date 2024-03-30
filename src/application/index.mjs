@@ -18,15 +18,14 @@ class Main {
     this.controllerUser = new ControllerUser(this.UserRepository)
 
     this.adapterWeb = new AdapterWeb(this.app, this.controllerUser)
+
+    this.run()
   }
 
-  run(port) {
+  run() {
+    const port = 3000
     this.app.listen(port, () => { console.log(`Listening on http://localhost:${port}`) })
   }
 }
 
-const main = new Main()
-
-const PORT = 3000
-
-main.run(PORT)
+new Main()
