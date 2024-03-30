@@ -1,18 +1,19 @@
 {
   "name": "nodejs-apirest-app",
   "version": "1.0.0",
-  "main": "src/main.mjs",
+  "main": "src/application/index.mjs",
   "devDependencies": {
     "@types/express": "4.17.21"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node src/main.mjs"
+    "start": "node src/application/index.mjs"
   },
   "author": "Manuel Florez",
   "license": "MIT",
   "description": "Project apirest for app",
   "dependencies": {
-    "express": "4.19.2"
+    "express": "4.19.2",
+    "morgan": "1.10.0"
   }
 }
