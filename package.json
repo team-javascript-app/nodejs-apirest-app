@@ -1,6 +1,9 @@
 {
   "name": "nodejs-apirest-app",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.12.0"
+  },
   "main": "src/application/index.mjs",
   "devDependencies": {
     "@types/express": "4.17.21"
