@@ -1,4 +1,4 @@
-import User from "../entities/User.mjs"
+import User from "src/domain/user/entities/User.js"
 
 export default class IRepository {
   save

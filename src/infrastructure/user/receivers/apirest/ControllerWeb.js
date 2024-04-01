@@ -1,6 +1,7 @@
+import User from 'src/domain/user/entities/User.js'
+import ResposeWeb from "./ResponseWeb.js";
+
 import { Router } from "express";
-import ResposeWeb from "./ResponseWeb.mjs";
-import User from "../../../../domain/user/entities/User.mjs";
 
 export default class ControllerWeb {
   constructor(controllerUser) {
@@ -29,11 +30,12 @@ export default class ControllerWeb {
   create() {
     this.router.post('/', async (req, res) => {
       try {
-        const {id, username, password} = req.body
-        const user = new User(id, username, password)
+        const {username, password} = req.body
+        const user = new User(0, username, password)
         const userResul = await this.controllerUser.create(user)
         this.response.ok(res, {user:userResul})
       } catch (error) {
+        console.log(error)
         this.response.error(res, error)
       }
     })

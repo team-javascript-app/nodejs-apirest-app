@@ -20,7 +20,7 @@ export default class MemoryUserRepository {
         return Promise.resolve(this.users[i])
       }
     }
-    throw Error(`User not found: '${username}'`)
+    throw Error(`User not found: '${user.username}'`)
   }
 
   async findByUsername(username) {

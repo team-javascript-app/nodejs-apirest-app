@@ -1,4 +1,4 @@
-import ControllerWeb from './ControllerWeb.mjs';
+import ControllerWeb from './ControllerWeb.js';
 
 export default class AdapterWeb {
   constructor(app, controllerUser) {

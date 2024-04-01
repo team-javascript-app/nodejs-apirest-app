@@ -10,7 +10,7 @@ export default class ControllerUser {
   async create(user) {
     const userFind = await this.findByUsername(user.username)
     if (userFind) {
-      throw Error(`User is register: '${username}'`)
+      throw Error(`User is register: '${user.username}'`)
     }
     return this.userRepository.save(user)
   }

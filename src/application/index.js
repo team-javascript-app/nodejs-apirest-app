@@ -1,11 +1,11 @@
+import MemoryRepository from 'src/infrastructure/user/adapters/memory/MemoryUserRepository.js';
+import AdapterWeb from "src/infrastructure/user/receivers/apirest/AdapterWeb.js";
+import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import express from 'express'
 import morgan from 'morgan'
-
-import ControllerUser from '../domain/user/use-case/ControllerUser.mjs';
-
-import MemoryRepository from '../infrastructure/user/adapters/memory/MemoryUserRepository.mjs';
-import AdapterWeb from "../infrastructure/user/receivers/apirest/AdapterWeb.mjs";
-
+/**
+ * @class
+ */
 class Main {
   constructor() {
     this.app = new express()
