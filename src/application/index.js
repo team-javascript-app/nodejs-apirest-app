@@ -3,10 +3,8 @@ import AdapterWeb from "src/infrastructure/user/receivers/apirest/AdapterWeb.js"
 import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import express from 'express'
 import morgan from 'morgan'
-/**
- * @class
- */
-class Main {
+
+export default class Main {
   constructor() {
     this.app = new express()
 
@@ -18,8 +16,6 @@ class Main {
     this.controllerUser = new ControllerUser(this.UserRepository)
 
     this.adapterWeb = new AdapterWeb(this.app, this.controllerUser)
-
-    this.run()
   }
 
   run() {
@@ -28,4 +24,4 @@ class Main {
   }
 }
 
-new Main()
+//new Main().run()
