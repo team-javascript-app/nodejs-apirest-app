@@ -1,4 +1,5 @@
 import User from 'src/domain/user/entities/User.js'
+import ExceptionUser from 'src/domain/user/exceptions/ExceptionUser.js'
 import ResposeWeb from "./ResponseWeb.js";
 
 import { Router } from "express";
@@ -29,20 +30,16 @@ export default class ControllerWeb {
 
   create() {
     this.router.post('/', async (req, res) => {
-      const data = {};
       try {
-        data.username = req.body.username
-        data.password = req.body.password
-      } catch (error) {
-        this.response.error404(res, new Error(`El 'username' y el 'password' son requeridos`))
-        return
-      }
-      try {
-        const user = new User(0, data.username, req.body.password)
+        const user = new User(0, req.body?.username, req.body?.password)
         const userResul = await this.controllerUser.create(user)
         this.response.ok(res, {user:userResul})
       } catch (error) {
-        this.response.error(res, error)
+        if(error.name === 'ExceptionUser') {
+          this.response.error404(res, error)
+        } else {
+          this.response.error(res, error)
+        }
       }
     })
   }
