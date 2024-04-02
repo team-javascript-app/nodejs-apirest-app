@@ -29,13 +29,19 @@ export default class ControllerWeb {
 
   create() {
     this.router.post('/', async (req, res) => {
+      const data = {};
       try {
-        const {username, password} = req.body
-        const user = new User(0, username, password)
+        data.username = req.body.username
+        data.password = req.body.password
+      } catch (error) {
+        this.response.error404(res, new Error(`El 'username' y el 'password' son requeridos`))
+        return
+      }
+      try {
+        const user = new User(0, data.username, req.body.password)
         const userResul = await this.controllerUser.create(user)
         this.response.ok(res, {user:userResul})
       } catch (error) {
-        console.log(error)
         this.response.error(res, error)
       }
     })

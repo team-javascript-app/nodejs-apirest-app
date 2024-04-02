@@ -10,4 +10,9 @@ export default class ResposeWeb {
     res.send({ status: 'failed', message: error.message })
   }
 
+  error404(res, error) {
+    res.status(404)
+    res.send({ status: 404, message: error.message })
+  }
+
 }
