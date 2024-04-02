@@ -3,8 +3,6 @@ import request from 'supertest'
 import express from 'express'
 
 import ControllerWeb from 'src/infrastructure/user/receivers/apirest/ControllerWeb.js'
-import ExceptionUser from 'src/domain/user/exceptions/ExceptionUser.js'
-import User from 'src/domain/user/entities/User.js'
 
 describe('class ControllerWeb', () => {
   describe('Get /api/vi/user', () => {
