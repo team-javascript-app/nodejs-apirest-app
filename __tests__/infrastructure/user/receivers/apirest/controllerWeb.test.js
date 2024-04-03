@@ -9,13 +9,13 @@ describe('class ControllerWeb', () => {
 
     test('should returns Array empty', async () => {
       const controllerWeb = new ControllerWeb({ findAll:
-				() => Promise.resolve([]) })
+        () => Promise.resolve([]) })
       const app = express()
       app.use(express.json())
       app.use('/user', controllerWeb.router)
       const response = await request(app).get('/user')
       expect(response.headers['content-type'])
-				.toBe('application/json; charset=utf-8')
+        .toBe('application/json; charset=utf-8')
       expect(response.headers['content-length']).toBe('43')
       expect(response.body.status).toEqual('successful')
       expect(Array.isArray(response.body.data.users)).toEqual(true)
@@ -24,19 +24,19 @@ describe('class ControllerWeb', () => {
 
     test('should return a user by username', async () => {
       const controllerWeb = new ControllerWeb({ findByUsername:
-			  (username) => Promise.resolve({
+        (username) => Promise.resolve({
           id: 1, username, password: '123456789'
         })
       })
-			const app = express()
+      const app = express()
       app.use(express.json())
-			app.use('/user', controllerWeb.router)
-			const response = await request(app).get('/user/manuelflorewz')
-			expect(response.headers['content-type'])
+      app.use('/user', controllerWeb.router)
+      const response = await request(app).get('/user/manuelflorewz')
+      expect(response.headers['content-type'])
         .toBe('application/json; charset=utf-8')
       expect(response.headers['content-length']).toBe('98')
       expect(response.body.status).toEqual('successful')
-			const result = {
+      const result = {
         id: 1, username: 'manuelflorewz', password: '123456789'
       }
       expect(response.body.data.user).toEqual(result)
@@ -46,7 +46,7 @@ describe('class ControllerWeb', () => {
 
   describe('POST /api/v1/user', () => {
 
-		test('should returns ExceptionUser when create a User', async () => {
+    test('should returns ExceptionUser when create a User', async () => {
       const controllerWeb = new ControllerWeb()
       const app = express()
       app.use(express.json())
@@ -133,7 +133,7 @@ describe('class ControllerWeb', () => {
       const app = express()
       app.use(express.json())
       app.use('/user', controllerWeb.router)
-			const response = await request(app).delete('/user/manuelflorezw')
+      const response = await request(app).delete('/user/manuelflorezw')
       expect(response.headers['content-type'])
         .toBe('application/json; charset=utf-8')
       expect(response.headers['content-length']).toBe('98')
