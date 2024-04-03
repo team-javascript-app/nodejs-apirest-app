@@ -105,8 +105,24 @@ describe('class ControllerWeb', () => {
       expect(response.status).toBe(200)
     })
   
-    test('should return error when update a user without username',
-      async () => { throw Exception(`Method not implemented`) })
+    test('should return error when update a user without username',async() => {
+      const controllerWeb = new ControllerWeb({ update: (username) => {
+          throw Error(`User not found: '${username}'`)
+        }})
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const payload = {
+        id: 1, username: 'manuelflorezw', password: '12345678' }
+      const response = await request(app).put('/user/manuelflorezw')
+        .send(payload)
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+      expect(response.headers['content-length']).toBe('63')
+      expect(response.body.status).toEqual('failed')
+      expect(response.body.message).toEqual(`User not found: 'manuelflorezw'`)
+      expect(response.status).toBe(500)
+    })
   })
 
   describe('DELETE /api/v1/user', () => {
@@ -128,7 +144,19 @@ describe('class ControllerWeb', () => {
     })
 
     test('should return a error when try delete user', async() => {
-      throw Exception(`Method not implemented`)
+      const controllerWeb = new ControllerWeb({ deleteUasername: (username) => {
+        throw Error(`User not found: '${username}'`)
+      }})
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const response = await request(app).delete('/user/manuelflorezw')
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+      expect(response.headers['content-length']).toBe('63')
+      expect(response.body.status).toEqual('failed')
+      expect(response.body.message).toEqual(`User not found: 'manuelflorezw'`)
+      expect(response.status).toBe(500)
     })
   }) 
 
