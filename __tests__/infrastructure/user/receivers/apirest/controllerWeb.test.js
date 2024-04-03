@@ -106,9 +106,7 @@ describe('class ControllerWeb', () => {
     })
   
     test('should return error when update a user without username',
-      async () => {
-  
-    })
+      async () => { throw Exception(`Method not implemented`) })
   })
 
   describe('DELETE /api/v1/user', () => {
@@ -130,7 +128,7 @@ describe('class ControllerWeb', () => {
     })
 
     test('should return a error when try delete user', async() => {
-      
+      throw Exception(`Method not implemented`)
     })
   }) 
 
