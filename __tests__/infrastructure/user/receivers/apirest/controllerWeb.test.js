@@ -82,7 +82,27 @@ describe('class ControllerWeb', () => {
 
   describe('PUT /api/v1/user', () => {
     test('shoul return user when update a user', async () => {
-
+      const controllerWeb = new ControllerWeb({ update: (username) => {
+        return {
+          id: 1,
+          username,
+          password: '12345678' 
+        }
+      }})
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const payload = {
+        id: 1, username: 'manuelflorezw', password: '12345678' }
+      const response = await request(app).put('/user/manuelflorezw')
+        .send(payload)
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+      expect(response.headers['content-length']).toBe('97')
+      const result = { id: 1, username: 'manuelflorezw', password: '12345678' }
+      expect(response.body.data.user).toEqual(result)
+      expect(response.body.status).toEqual('successful')
+      expect(response.status).toBe(200)
     })
   
     test('should return error when update a user without username',
