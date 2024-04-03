@@ -74,7 +74,7 @@ export default class ControllerWeb {
     this.router.delete('/:username', async (req, res) => {
       try {
         const {username} = req.params
-        const user = await this.controllerUser.delete(username)
+        const user = await this.controllerUser.deleteUasername(username)
         this.response.ok(res, {user})
       } catch (error) {
         this.response.error(res, error)

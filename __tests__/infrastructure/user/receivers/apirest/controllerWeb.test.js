@@ -93,19 +93,20 @@ describe('class ControllerWeb', () => {
 
   describe('DELETE /api/v1/user', () => {
     test('should return user when delete by username', async() => {
-      const controllerWeb = new ControllerWeb()
-			controllerWeb.delete = (username) => {
-				id: 1,
-				username,
-				password: '123456789'
-			}
+      const controllerWeb = new ControllerWeb({ deleteUasername: (username) => {
+        return { id: 1, username, password: '123456789' }
+      }})
       const app = express()
       app.use(express.json())
       app.use('/user', controllerWeb.router)
 			const response = await request(app).delete('/user/manuelflorezw')
       expect(response.headers['content-type'])
         .toBe('application/json; charset=utf-8')
-      expect(response.headers['content-length']).toBe('90')
+      expect(response.headers['content-length']).toBe('98')
+      const result = { id: 1, username: 'manuelflorezw', password: '123456789' }
+      expect(response.body.data.user).toEqual(result)
+      expect(response.body.status).toEqual('successful')
+      expect(response.status).toBe(200)
     })
 
     test('should return a error when try delete user', async() => {

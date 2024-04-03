@@ -27,7 +27,7 @@ export default class ControllerUser {
     return this.userRepository.save(user)
   }
 
-  async delete(username) {
+  async deleteUasername(username) {
     return this.userRepository.delete(username)
   }
 }
