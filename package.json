@@ -15,7 +15,8 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node src/application/index.js",
-    "postinstall": "link-module-alias"
+    "postinstall": "link-module-alias",
+    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "_moduleAliases": {
     "src": "src"
