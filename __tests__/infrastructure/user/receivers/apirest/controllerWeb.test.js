@@ -57,6 +57,21 @@ describe('class ControllerWeb', () => {
       expect(response.body.data.user).toEqual(result)
     })
 
+    test('should return error findByUsername', async () => {
+      const controllerWeb = new ControllerWeb({ findByUsername:
+        () => { throw Error('return failed') } })
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const response = await request(app).get('/user/manuelflorewz')
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+      expect(response.headers['content-length']).toBe('45')
+      expect(response.body.status).toEqual('failed')
+      expect(response.body.message).toEqual('return failed')
+      expect(response.status).toBe(500)
+    })
+
   })
 
   describe('POST /api/v1/user', () => {
@@ -93,6 +108,24 @@ describe('class ControllerWeb', () => {
       expect(response.body.status).toEqual('successful')
       expect(response.status).toBe(200)
     })
+
+    test('should return error', async() => {
+      const controllerWeb = new ControllerWeb({ create:
+        (user) => { throw Error('return failed')}
+      })
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const payload = { username: 'Manuel', password: '12345678' }
+      const response = await request(app).post('/user').send(payload)
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+        expect(response.headers['content-length']).toBe('45')
+      expect(response.body.status).toEqual('failed')
+      expect(response.body.message).toEqual('return failed')
+      expect(response.status).toBe(500)
+    })
+
   })
 
   describe('PUT /api/v1/user', () => {
