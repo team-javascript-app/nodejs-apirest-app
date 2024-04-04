@@ -75,4 +75,47 @@ describe('ContollerUser test of use-case', () => {
     })
 
   })
+
+  describe('update test', () => {
+    test('should return error when User not found', async() => {
+      const userRepository = { findByUsername:
+        async() => Promise.resolve(null),
+        save: () => Promise.resolve(new User(1, 'manuel', '123456789'))
+      }
+      const controllerWeb = new ControllerUser(userRepository)
+      const user = new User(1, 'manuelflorezw', '123456789')
+      try {
+        await controllerWeb.update('manuel', user)
+      } catch (error) {
+        expect(error.message).toEqual(`User not found: 'manuel'`)
+      }
+    })
+
+    test('should return user', async() => {
+      const userRepository = { findByUsername:
+        async() => Promise.resolve(new User(1, 'manuel', 'aaaaaaaaa')),
+        save:() => Promise.resolve(new User(1, 'manuelflorezw', '123456789'))
+      }
+      const controllerWeb = new ControllerUser(userRepository)
+      const user = new User(1, 'manuelflorezw', '123456789')
+
+      const userResult = await controllerWeb.update('manuel', user)
+      expect(userResult.id).toEqual(1)
+      expect(userResult.username).toEqual('manuelflorezw')
+      expect(userResult.password).toEqual('123456789')
+    })
+  })
+
+  describe('update test', () => {
+    test('should return error when User not found', async() => {
+      const userRepository = {}
+      userRepository.delete = async () => { throw Error('error faild') }
+      const controllerWeb = new ControllerUser(userRepository)
+      try {
+        await controllerWeb.deleteUasername('manuelflorezw')
+      } catch (error) {
+        expect(error.message).toEqual('error faild')
+      }
+    })
+  })
 })
