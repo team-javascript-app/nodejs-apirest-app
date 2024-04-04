@@ -22,6 +22,21 @@ describe('class ControllerWeb', () => {
       expect(response.status).toBe(200)      
     })
 
+    test('should return error', async()=> {
+      const controllerWeb = new ControllerWeb({ findAll:
+        ()=> {throw Error('return failed') } })
+      const app = express()
+      app.use(express.json())
+      app.use('/user', controllerWeb.router)
+      const response = await request(app).get('/user')
+      expect(response.headers['content-type'])
+        .toBe('application/json; charset=utf-8')
+        expect(response.headers['content-length']).toBe('45')
+      expect(response.body.status).toEqual('failed')
+      expect(response.body.message).toEqual('return failed')
+      expect(response.status).toBe(500)
+    })
+
     test('should return a user by username', async () => {
       const controllerWeb = new ControllerWeb({ findByUsername:
         (username) => Promise.resolve({
