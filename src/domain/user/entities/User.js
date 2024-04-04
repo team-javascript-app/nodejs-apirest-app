@@ -9,7 +9,7 @@ export default class User {
       throw new ExceptionUser(`User need a password: ${password}`)
     }
     if(typeof id !== 'number') {
-      throw new ExceptionUser(`User need a id: ${id}`)
+      throw new ExceptionUser(`User need a id number: ${id}`)
     }
     if(username.length < 5) {
       throw new ExceptionUser(`User need a username with more than 4 characters: ${username}`)

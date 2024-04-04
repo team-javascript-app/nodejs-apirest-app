@@ -1,4 +1,4 @@
-import {describe, test, expect, jest} from '@jest/globals'
+import {describe, test, expect} from '@jest/globals'
 import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import User from 'src/domain/user/entities/User'
 
