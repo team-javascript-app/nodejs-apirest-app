@@ -24,4 +24,4 @@ export default class Main {
   }
 }
 
-//new Main().run()
+new Main().run()
