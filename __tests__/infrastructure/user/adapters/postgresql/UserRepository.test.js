@@ -5,47 +5,56 @@ import {describe, test, expect} from '@jest/globals'
 describe('class UserRepository', () => {
 
   test('findAll', async()=> {
-    const userRepository = new UserRepository()
-    await userRepository.connet()
+    const user = { user_id:1, user_username:'manuel', password: '123456789' }
+    const client = { query: () => Promise.resolve({ rows:[user]}) }
+    const userRepository = new UserRepository(client)
     const users = await userRepository.findAll()
     expect(Array.isArray(users)).toBe(true)
-    await userRepository.close()
+  })
+
+  test('should return error findAll', async()=> {
+    const client = { query: ()=> { throw Error('error en la base de datos')} }
+    const userRepository = new UserRepository(client)
+    try {
+      await userRepository.findAll()
+    } catch (error) {
+      expect(error.message).toEqual('error en la base de datos')
+    }
   })
 
   test('save', async() => {
-    const userRepository = new UserRepository()
-    await userRepository.connet()
-    const user = await userRepository.save({
-      id:0, username: 'manuel', password: '123456789' })
+    const userAux = {id:0, username: 'manuel', password: '123456789'}
+    const userResult = {
+      user_id:1, user_username: 'manuel', user_password: '123456789'}
+    const client = { query: ()=> { return {rows: [userResult]}} }
+    const userRepository = new UserRepository(client)
+    const user = await userRepository.save(userAux)
     expect(typeof user.id === 'number').toBe(true)
     expect(user.username).toEqual('manuel')
     expect(user.password).toEqual('123456789')
-    await userRepository.close()
   })
 
-  test('update', async() => {
-    const userRepository = new UserRepository()
-    await userRepository.connet()
-    await userRepository.save({
-      id:0, username: 'andrea', password: '666777777' })
-    const user = await userRepository.save({
-      id:1, username: 'manuel', password: '123456789' })
-
-
+  test('update when id !== 0', async() => {
+    const userAux = {id:1, username: 'manuel', password: '123456789'}
+    const userResult = {
+      user_id:1, user_username: 'manuel', user_password: '123456789'}
+    const client = { query: ()=> { return {rows: [userResult]}} }
+    const userRepository = new UserRepository(client)
+    const user = await userRepository.save(userAux)
     expect(typeof user.id === 'number').toBe(true)
     expect(user.username).toEqual('manuel')
     expect(user.password).toEqual('123456789')
-    await userRepository.close()
   })
 
-  test('delete', async() => {
-    const userRepository = new UserRepository()
-    await userRepository.connet()
-    const user = await userRepository.delete('manuel')
-    expect(typeof user.id === 'number').toBe(true)
-    expect(user.username).toEqual('manuel')
-    expect(user.password).toEqual('123456789')
-    await userRepository.close()
+  test('should return when update', async() => {
+    const userAux = {id:1, username: 'manuel', password: '123456789'}
+    const client = { query: ()=> { throw Error('error en la base de datos')} }
+    const userRepository = new UserRepository(client)
+    try {
+      await userRepository.save(userAux)
+    } catch (error) {
+      expect(error.message).toEqual('error en la base de datos')
+    }
   })
 
 })

@@ -3,14 +3,6 @@ export default class UserRepository {
     this.client = client
   }
 
-  async close() {
-    try {
-      this.client.end()
-    } catch (error) {
-      throw error
-    }
-  }
-
   async findAll() {
     try {
       const res = await this.client.query(`SELECT * FROM users`)
