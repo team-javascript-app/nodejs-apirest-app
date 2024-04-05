@@ -1,4 +1,4 @@
-import MemoryRepository from 'src/infrastructure/user/adapters/memory/MemoryUserRepository.js';
+import UserRepository from "src/infrastructure/user/adapters/postgresql/UserRepository.js";
 import AdapterWeb from "src/infrastructure/user/receivers/apirest/AdapterWeb.js";
 import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import express from 'express'
@@ -10,8 +10,8 @@ export default class Main {
     this.app = new express()
     this.app.use(express.json())
     this.app.use(morgan('dev'))
-    this.UserRepository = new MemoryRepository()
-    this.controllerUser = new ControllerUser(this.UserRepository)
+    this.userRepository = new UserRepository()
+    this.controllerUser = new ControllerUser(this.userRepository)
     this.adapterWeb = new AdapterWeb(this.app, this.controllerUser)
   }
 }

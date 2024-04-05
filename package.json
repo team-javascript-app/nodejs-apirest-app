@@ -26,7 +26,8 @@
   "description": "Project apirest for app",
   "dependencies": {
     "express": "4.19.2",
-    "morgan": "1.10.0"
+    "morgan": "1.10.0",
+    "pg": "^8.11.5"
   },
   "repository": {
     "type": "git",
