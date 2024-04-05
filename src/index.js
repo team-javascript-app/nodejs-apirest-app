@@ -1,8 +1,8 @@
-import Main from "./application/Main.js"
+import Main from './application/Main.js'
 
 const main = new Main()
 
-const callback =()=>{console.log(`Listening on http://localhost:${this.PORT}`)}
+const callback =()=>{console.log(`Listening on http://localhost:${main.PORT}`)}
 
 main.app.listen(main.PORT, callback)
   

@@ -1,17 +1,6 @@
-import pg from 'pg'
-
 export default class UserRepository {
-  constructor() { }
-
-  async connet() {
-    this.client = new pg.Client({
-      user: 'userapp',
-      host: 'localhost',
-      database: 'app',
-      password: 'passwordapp',
-      port: 5432
-    })
-    await this.client.connect()
+  constructor(client) {
+    this.client = client
   }
 
   async close() {
@@ -61,7 +50,7 @@ export default class UserRepository {
     try {
       const query = `SELECT * FROM users WHERE user_username = '${username}'`
       const res = await this.client.query(query)
-      return this.mapperUser(res.rows[0]) 
+      return res.rows.length == 1 ? this.mapperUser(res.rows[0]) : null
     } catch (error) {
       throw error
     }
