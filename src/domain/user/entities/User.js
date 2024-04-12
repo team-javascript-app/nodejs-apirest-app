@@ -21,4 +21,7 @@ export default class User {
     this.password = password
     this.id = id
   }
+  toString() {
+    return `id: ${this.id}, username: ${this.username}, password: ${this.password}`
+  }
 }
