@@ -2,7 +2,7 @@ import scanner from 'sonarqube-scanner'
 
 scanner(
   {
-    serverUrl: 'http://sonarqube.manueldevops.tech',
+    serverUrl: process.env.URL,
     token: process.env.TOKEN,
      options: {
       'sonar.projectName': 'nodejs-apirest-app',
