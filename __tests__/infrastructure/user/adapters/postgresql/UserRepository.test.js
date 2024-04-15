@@ -57,4 +57,46 @@ describe('class UserRepository', () => {
     }
   })
 
+  test('should return error when findUsername', async() => {
+    const client = { query: ()=> { throw Error('error en la base de datos')} }
+    const userRepository = new UserRepository(client)
+    try {
+      await userRepository.findByUsername('manuelflorez')
+    } catch (error) {
+      expect(error.message).toEqual('error en la base de datos')
+    }
+  })
+
+  test('should return user when delete', async() => {
+    const userResult = {
+      user_id:1, user_username: 'manuelflorez', user_password: '123456789'}
+    const client = { query: ()=> { return {rows: [userResult]}} }
+    const userRepository = new UserRepository(client)
+    const user = await userRepository.delete('manuelflorez')
+    
+    expect(user.id).toEqual(1)
+    expect(user.username).toEqual('manuelflorez')
+    expect(user.password).toEqual('123456789')
+  })
+
+  test('should return error when delete', async() => {
+    const client = { query: ()=> { throw Error('error en la base de datos')} }
+    const userRepository = new UserRepository(client)
+    try {
+      await userRepository.delete('manuelflorez')
+    } catch (error) {
+      expect(error.message).toEqual('error en la base de datos')
+    }
+  })
+
+
+  test('should return null findByUserName', async() => {
+    const userResult = {
+      user_id:1, user_username: 'manuelflorez', user_password: '123456789'}
+    const client = { query: ()=> { return {rows: []}} }
+    const userRepository = new UserRepository(client)
+    const result = await userRepository.findByUsername('manuelflorez')
+    expect(result).toBe(null)
+  })
+
 })

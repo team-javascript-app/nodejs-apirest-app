@@ -10,13 +10,15 @@
     "@types/express": "4.17.21",
     "jest": "^29.7.0",
     "link-module-alias": "^1.2.0",
+    "sonarqube-scanner": "^3.4.0",
     "supertest": "^6.3.4"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "node src/index.js",
+    "start": "node --experimental-vm-modules --env-file=.env src/index.js",
     "postinstall": "link-module-alias",
-    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "sonar": "node --experimental-vm-modules --env-file=sonar.env sonarqube.js"
   },
   "_moduleAliases": {
     "src": "src"
@@ -25,6 +27,7 @@
   "license": "MIT",
   "description": "Project apirest for app",
   "dependencies": {
+    "amqplib": "^0.10.4",
     "express": "4.19.2",
     "morgan": "1.10.0",
     "pg": "^8.11.5"

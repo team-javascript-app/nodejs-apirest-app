@@ -1,5 +1,4 @@
 import User from 'src/domain/user/entities/User.js'
-import ExceptionUser from 'src/domain/user/exceptions/ExceptionUser.js'
 import ResposeWeb from "./ResponseWeb.js";
 
 import { Router } from "express";
@@ -18,18 +17,20 @@ export default class ControllerWeb {
   }
 
   findAll() {
-    this.router.get('/', async (req, res) => {
+    const ctrFindAll = async(res) => {
       try {
         const users = await this.controllerUser.findAll()
         this.response.ok(res, {users})
       } catch (error) {
         this.response.error(res, error)
       }
-    })
+    }
+
+    this.router.get('/', (req, res) => { ctrFindAll(res) })
   }
 
   create() {
-    this.router.post('/', async (req, res) => {
+    const ctrCreate = async(req, res) => {
       try {
         const user = new User(0, req.body?.username, req.body?.password)
         const userResul = await this.controllerUser.create(user)
@@ -41,11 +42,13 @@ export default class ControllerWeb {
           this.response.error(res, error)
         }
       }
-    })
+    }
+
+    this.router.post('/', (req, res) => { ctrCreate(req, res) })
   }
 
   findByUsername() {
-    this.router.get('/:username', async (req, res) => {
+    const ctrfindByUsername = async(req, res) => {
       try {
         const {username} = req.params
         const user = await this.controllerUser.findByUsername(username)
@@ -53,11 +56,13 @@ export default class ControllerWeb {
       } catch (error) {
         this.response.error(res, error)
       }
-    })
+    }
+
+    this.router.get('/:username', (req, res) => { ctrfindByUsername(req, res) })
   }
 
   update() {
-    this.router.put('/:username', async (req, res) => {
+    const ctrUpdate = async(req, res) => {
       try {
         const usernameReq = req.params.username
         const {id, username, password} = req.body
@@ -67,11 +72,13 @@ export default class ControllerWeb {
       } catch (error) {
         this.response.error(res, error)
       }
-    })
+    }
+
+    this.router.put('/:username', (req, res) => { ctrUpdate(req, res) })
   }
 
   delete() {
-    this.router.delete('/:username', async (req, res) => {
+    const ctrDelete = async(req, res) => {
       try {
         const {username} = req.params
         const user = await this.controllerUser.deleteUasername(username)
@@ -79,7 +86,8 @@ export default class ControllerWeb {
       } catch (error) {
         this.response.error(res, error)
       }
-    })
-  }
+    }
 
+    this.router.delete('/:username', (req, res) => { ctrDelete(req, res) })
+  }
 }

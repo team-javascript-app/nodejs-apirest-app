@@ -38,4 +38,9 @@ describe('User', () => {
     }
   })
 
+  test('should string when use toString method', () => {
+    const user = new User(1, 'manuel', 'password')
+    expect(user.toString()).toBe('id: 1, username: manuel, password: password')
+  })
+
 })

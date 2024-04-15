@@ -3,9 +3,17 @@ import request from 'supertest'
 import express from 'express'
 
 import ControllerWeb from 'src/infrastructure/user/receivers/apirest/ControllerWeb.js'
+import AdapterWeb from 'src/infrastructure/user/receivers/apirest/AdapterWeb.js'
 
 describe('class ControllerWeb', () => {
   describe('Get /api/v1/user', () => {
+
+    test('Build AdaptetWeb', () => {
+      const app = express()
+      const controllerUser = {}
+      const adapterWeb = new AdapterWeb(app, controllerUser)
+      expect(typeof adapterWeb === 'object').toEqual(true)
+    })
 
     test('should returns Array empty', async () => {
       const controllerWeb = new ControllerWeb({ findAll:
