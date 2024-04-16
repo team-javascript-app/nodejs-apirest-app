@@ -3,7 +3,12 @@ import Main from 'src/application/Main'
 
 describe('Main class', ()=>{
   test('build', async()=> {
-    //console.log('Test main')
-    //const main = new Main()
+    /*
+    try {
+      new Main()
+    } catch (error) {
+      console.error(error)
+    }
+    */
   })
 })

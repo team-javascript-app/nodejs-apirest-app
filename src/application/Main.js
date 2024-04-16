@@ -1,5 +1,5 @@
-import UserRepository from "src/infrastructure/user/adapters/postgresql/UserRepository.js";
-import AdapterWeb from "src/infrastructure/user/receivers/apirest/AdapterWeb.js";
+import UserRepository from 'src/infrastructure/user/adapters/postgresql/UserRepository.js'
+import AdapterWeb from 'src/infrastructure/user/receivers/apirest/AdapterWeb.js'
 import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import express from 'express'
 import morgan from 'morgan'
