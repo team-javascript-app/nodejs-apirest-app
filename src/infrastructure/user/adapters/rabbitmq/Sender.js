@@ -23,7 +23,5 @@ export default class Sender {
       this.exchange,
       routingKey,
       Buffer.from(message))
-
-    //console.log(" [x] Sent %s: '%s'", routingKey, msg);
   }
 }
