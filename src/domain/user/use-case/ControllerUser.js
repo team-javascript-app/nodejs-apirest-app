@@ -1,10 +1,22 @@
 export default class ControllerUser {
-  constructor(userRepository) {
+  constructor(userRepository, traceability) {
     this.userRepository = userRepository
+    this.traceability = traceability
+    this.routingKey = 'user.service'
   }
 
   async findAll() {
-    return this.userRepository.findAll()
+    const message = { method: 'findAll' }
+    try {
+      const users = await this.userRepository.findAll()
+      message.data = users
+      await this.traceability.emit(message, this.routingKey)
+      return users
+    } catch (error) {
+      message.error = error
+      this.traceability.emitError(message)
+      throw error
+    }
   }
 
   async create(user) {

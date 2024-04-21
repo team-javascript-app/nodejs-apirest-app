@@ -6,7 +6,8 @@ describe('ContollerUser test of use-case', () => {
   describe('findAll test', () => {
     test('should return error when failed connection database', async () => {
       const userRepository = { findAll: ()=>{ throw Error('database error')}}
-      const controllerWeb = new ControllerUser(userRepository)
+      const traceability = { emitError: ()=>{} }
+      const controllerWeb = new ControllerUser(userRepository, traceability)
       try {
         await controllerWeb.findAll()
       } catch (error) {
@@ -16,7 +17,8 @@ describe('ContollerUser test of use-case', () => {
 
     test('should return [] when successful', async () => {
       const userRepository = { findAll: () => [] }
-      const controllerWeb = new ControllerUser(userRepository)
+      const traceability = { emit: ()=>{} }
+      const controllerWeb = new ControllerUser(userRepository, traceability)
       const result = await controllerWeb.findAll()
       expect(result).toEqual([])
     })

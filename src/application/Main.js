@@ -1,5 +1,7 @@
 import UserRepository from 'src/infrastructure/user/adapters/postgresql/UserRepository.js'
+import ControllerTraceability from 'src/domain/user/use-case/ControllerTraceability.js'
 import AdapterWeb from 'src/infrastructure/user/receivers/apirest/AdapterWeb.js'
+import Sender from 'src/infrastructure/user/adapters/rabbitmq/Sender.js'
 import ControllerUser from 'src/domain/user/use-case/ControllerUser.js'
 import express from 'express'
 import morgan from 'morgan'
@@ -12,9 +14,16 @@ export default class Main {
       this.channel = await this.rabbimq()
       const client = await this.getPostgresqlConnet()
       this.userRepository = new UserRepository(client)
-      this.controllerUser = new ControllerUser(this.userRepository)
+      this.controllerTraceability = await this.getControllerTraceability()
+      this.controllerUser = new ControllerUser(this.userRepository, this.controllerTraceability)
       this.adapterWeb = new AdapterWeb(app, this.controllerUser)
     })
+  }
+
+  async getControllerTraceability() {
+    const exchange = 'domainEvent'
+    const sender = new Sender(this.channel, exchange)
+    return new ControllerTraceability(sender)
   }
 
   async rabbimq() {
@@ -25,7 +34,7 @@ export default class Main {
     const url = `amqp://${user}:${password}@${host}:${port}`
     const connetion = await amqp.connect(url)
     const channel = await connetion.createChannel()
-    return Promise.resolve(channel)
+    return channel
   }
 
   async init() {
